@@ -22,6 +22,7 @@ app.use(express.static(path.resolve('dist')));
 // API endpoint for fetching events
 app.get('/api/events', async (req, res) => {
     try {
+        console.log('test')
         const username = process.env.EVENTFINDA_USERNAME;
         const password = process.env.EVENTFINDA_PASSWORD;
         const authHeader = 'Basic ' + Buffer.from(`${username}:${password}`).toString('base64');
