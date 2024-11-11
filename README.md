@@ -67,8 +67,6 @@ node server.js
 npm run dev
 ```
 
-## Test account email/password/role
-ticketree07@gmail.com/password/normal_user
 
 ## Acknowledgments
 - [Garrison Koh](https://github.com/garrikyx)

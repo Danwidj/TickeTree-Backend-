@@ -13,11 +13,6 @@ const app = express();
 const port = process.env.PORT || 5001;
 const stripe = stripePackage(process.env.STRIPE_SECRET_KEY);
 
-const apiUrl = import.meta.env.VITE_BACKEND_URL;
-fetch(`${apiUrl}/api/your-endpoint`)
-    .then(response => response.json())
-    .then(data => console.log(data));
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -27,7 +22,6 @@ app.use(express.static(path.resolve('dist')));
 // API endpoint for fetching events
 app.get('/api/events', async (req, res) => {
     try {
-        console.log('test')
         const username = process.env.EVENTFINDA_USERNAME;
         const password = process.env.EVENTFINDA_PASSWORD;
         const authHeader = 'Basic ' + Buffer.from(`${username}:${password}`).toString('base64');
@@ -46,7 +40,7 @@ app.get('/api/events', async (req, res) => {
     }
 });
 
-app.post('/api/create-checkout-session', async (req, res) => {
+app.post('/create-checkout-session', async (req, res) => {
     const { cartItems } = req.body;
 
     console.log("Received cart items:", cartItems);
@@ -79,8 +73,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `https://wad2-project-g5t7-2024.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: 'https://wad2-project-g5t7-2024.vercel.app/error',
+            success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: 'http://localhost:5173/error',
             allow_promotion_codes: true,
         });
 
@@ -91,7 +85,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
     }
 });
 
-app.get('/api/checkout-session', async (req, res) => {
+app.get('/checkout-session', async (req, res) => {
     const { session_id } = req.query;
     try {
         const session = await stripe.checkout.sessions.retrieve(session_id, {
@@ -161,7 +155,7 @@ async function sendConfirmationEmail(email, orderSummary) {
 }
 
 // Define the endpoint
-app.post('/api/send-confirmation-email', async (req, res) => {
+app.post('/send-confirmation-email', async (req, res) => {
     const { email, orderSummary } = req.body;
     try {
         await sendConfirmationEmail(email, orderSummary);
@@ -172,8 +166,7 @@ app.post('/api/send-confirmation-email', async (req, res) => {
     }
 });
 
-export default app;
-
-
-
-
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
