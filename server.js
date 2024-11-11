@@ -166,7 +166,9 @@ app.post('/api/send-confirmation-email', async (req, res) => {
     }
 });
 
-module.exports = app;
+export default {
+    app
+}
 
 
 
