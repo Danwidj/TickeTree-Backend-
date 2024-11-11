@@ -59,6 +59,18 @@
         </div>
       </div>
 
+       <!-- Error Modal -->
+      <div v-if="showModal" class="modal-overlay">
+        <div class="modal-content animate-fade-in">
+          <h5>Login Required</h5>
+          <p class="text-muted">{{ errorMessage }}</p>
+          <div class="modal-actions">
+            <button @click="closeModal" class="btn login-btn">Go to Login</button>
+            <button @click="showModal = false" class="btn btn-close"></button>
+          </div>
+        </div>
+      </div>
+
       <!-- Price History Chart Section -->
       <div class="container price-history col-12" v-if="event">
         <h5 class="ms-3">Price History</h5>
@@ -78,6 +90,7 @@ import { useTicketStore } from "@/stores/ticketStore";
 import { useCartStore } from "@/stores/cartStore";
 import Chart from "@/components/marketplace/Chart.vue";
 import anime from "animejs/lib/anime.es.js";
+import { getAuth } from "firebase/auth";
 
 export default {
   name: "ListedEvent",
@@ -95,41 +108,53 @@ export default {
     const ticketStore = useTicketStore();
     const cartStore = useCartStore();
     const cartMessage = ref(""); // Message to indicate if the item is already in the cart
-
+    const isLoggedIn = ref(false); // Check login status
+    const showModal = ref(false); // Modal visibility
+    const errorMessage = ref(""); // Error message for modal
+    const auth = getAuth();
     onMounted(async () => {
       event.value = await ticketStore.fetchTicketById(eventId);
 
-
-    anime({
-    targets: ".poster",
-    scale: [0.1, 1],
-    opacity: [0, 1],
-    easing: "easeOutExpo",
-    duration: 3000,
+  // Check authentication status
+  auth.onAuthStateChanged((user) => {
+    isLoggedIn.value = !!user; // Set isLoggedIn to true if user is logged in
   });
 
-  anime({
-    targets: ".container.justify-content-center.gap-4.mb-4",
-    scale: [0.95, 1],
-    opacity: [0, 1],
-    easing: "easeOutExpo",
-    duration: 5000,
-  });
+    isLoggedIn.value = !!user; // Set isLoggedIn to true if user is logged in  });
+      anime({
+        targets: ".poster",
+        scale: [0.1, 1],
+        opacity: [0, 1],
+        easing: "easeOutExpo",
+        duration: 3000,
+      });
 
-  anime({
-    targets:
-      ".event-title, .event-details p, .about-section,.price-section,.location-map,.how-to-get-there",
-    translateY: [20, 0],
-    opacity: [0, 1],
-    easing: "easeOutExpo",
-    duration: 6000,
-    delay: anime.stagger(200, { start: 300 }),
-  });
+      anime({
+        targets: ".container.justify-content-center.gap-4.mb-4",
+        scale: [0.95, 1],
+        opacity: [0, 1],
+        easing: "easeOutExpo",
+        duration: 5000,
+      });
+
+      anime({
+        targets:
+          ".event-title, .event-details p, .about-section,.price-section,.location-map,.how-to-get-there",
+        translateY: [20, 0],
+        opacity: [0, 1],
+        easing: "easeOutExpo",
+        duration: 6000,
+        delay: anime.stagger(200, { start: 300 }),
+      });
     });
 
     // Handle ticket purchase action
     function handleTicketPurchase() {
-      if (event.value) {
+      console.log("Logged in status:", isLoggedIn.value); 
+      if (!isLoggedIn.value) {
+        errorMessage.value = "Please log in to purchase tickets."; // Set error message if user is not logged in
+        showModal.value = true; // Show modal
+      } else if (event.value) {
         const isAlreadyInCart = cartStore.cartItems.some(
           (item) => item.id === event.value.id
         );
@@ -145,15 +170,23 @@ export default {
       }
     }
 
+    function closeModal() {
+      showModal.value = false; // Close the modal
+      router.push("/login"); // Redirect to login page
+    }
+
     return {
       event,
       handleTicketPurchase,
       cartMessage,
+      isLoggedIn,
+      showModal,
+      errorMessage,
+      closeModal,
     };
   },
 };
 </script>
-
 
 <style scoped>
 .poster-section {
@@ -288,5 +321,65 @@ export default {
   50% {
     transform: scale(1.05);
   }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* High z-index to appear on top */
+}
+
+/* Modal Content Styling */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  width: 50%;
+  max-width: 500px;
+  position: relative;
+  text-align: center;
+}
+
+/* Responsive Modal Width */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%; /* Full width for smaller screens */
+  }
+}
+
+/* Close Button Styling */
+.modal-content .btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: #666;
+  margin-right: 10px;
+}
+
+.modal-content .btn-close:hover {
+  color: #333;
+}
+
+/* Modal Actions */
+.modal-actions button {
+  margin-top: 10px;
+}
+
+.login-btn {
+  color: white;
+  background-color: #b7765c;
 }
 </style>
