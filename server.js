@@ -18,7 +18,11 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static(path.resolve('dist')));
-
+const response = await axios.get("https://wad2-project-g5t7-2024-backend.vercel.app/api/events", {
+    params: {
+        ...params,
+    },
+});
 // API endpoint for fetching events
 app.get('/api/events', async (req, res) => {
     try {
