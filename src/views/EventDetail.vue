@@ -73,7 +73,7 @@
               @click="handleTicketPurchase"
               class="btn btn-success btn-lg animate-pulse"
             >
-              Get Tickets
+              Buy Ticket
             </button>
             <div class="marketplace mt-3">
               <router-link to="/marketplace">
@@ -91,11 +91,10 @@
             <h5>Login Required</h5>
             <p class="text-muted">{{ errorMessage }}</p>
             <div class="modal-actions">
-              <button @click="closeModal" class="btn btn-primary">
+              <button @click="closeModal" class="btn login-btn">
                 Go to Login
               </button>
               <button @click="showModal = false" class="btn btn-close">
-                Close
               </button>
             </div>
           </div>
