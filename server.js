@@ -13,6 +13,11 @@ const app = express();
 const port = process.env.PORT || 5001;
 const stripe = stripePackage(process.env.STRIPE_SECRET_KEY);
 
+const apiUrl = import.meta.env.VITE_BACKEND_URL;
+fetch(`${apiUrl}/api/your-endpoint`)
+    .then(response => response.json())
+    .then(data => console.log(data));
+
 // Middleware
 app.use(cors());
 app.use(express.json());
