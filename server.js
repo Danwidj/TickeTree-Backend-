@@ -18,11 +18,14 @@ app.use(cors({ origin: 'https://ticke-tree-backend.vercel.app' })); // Allow onl
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static(path.resolve('dist')));
+
 // API endpoint for fetching events
 app.get('/api/events', async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://ticke-tree-backend.vercel.app'); // Allow only this origin
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE'); // Specify allowed methods
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow necessary headers
+    // Set CORS headers for this endpoint
+    res.setHeader('Access-Control-Allow-Origin', 'https://ticke-tree-backend.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
     try {
         const username = process.env.EVENTFINDA_USERNAME;
         const password = process.env.EVENTFINDA_PASSWORD;
