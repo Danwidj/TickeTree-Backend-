@@ -125,7 +125,7 @@ export default {
     if (this.sessionId) {
       try {
         const response = await axios.get(
-          `http://localhost:5001/checkout-session`,
+          `https://wad2-project-g5t7-2024-backend.vercel.app/checkout-session`,
           {
             params: { session_id: this.sessionId },
           }
