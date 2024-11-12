@@ -19,12 +19,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static(path.resolve('dist')));
 
-const response = await axios.get("https://wad2-project-g5t7-2024-backend.vercel.app/api/events", {
-
-    params: {
-        ...params,
-    },
-});
 // API endpoint for fetching events
 app.get('/api/events', async (req, res) => {
     try {
@@ -38,11 +32,9 @@ app.get('/api/events', async (req, res) => {
             headers: { Authorization: authHeader },
             params: { ...queryParams }
         });
-        
+
         res.json(response.data);
     } catch (error) {
-        console.error('Error fetching events:', error.response ? error.response.data : error.message);
-        res.status(500).send('Internal Server Error');
         console.error('Error fetching events:', error.message);
         res.status(500).send('Internal Server Error');
     }
