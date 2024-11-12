@@ -131,6 +131,10 @@ export default {
 
 <style scoped>
 
+.dark-mode .login-form h2 {
+  color: black;
+}
+
 .login-container {
   display: flex;
   justify-content: center;
