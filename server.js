@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static(path.resolve('dist')));
-const response = await axios.get("https://wad2-project-g5t7-2024-backend.vercel.app/api/events", {
+const response = await axios.get("http://localhost:5173/api/events", {
     params: {
         ...params,
     },
@@ -79,8 +79,8 @@ app.post('/create-checkout-session', async (req, res) => {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `https://ticke-tree-backend.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: 'https://ticke-tree-backend.vercel.app/error',
+            success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: 'http://localhost:5173/error',
             allow_promotion_codes: true,
         });
 
