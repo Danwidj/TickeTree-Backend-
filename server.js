@@ -19,6 +19,12 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static(path.resolve('dist')));
 
+const response = await axios.get("https://wad2-project-g5t7-2024-backend.vercel.app/api/events", {
+
+    params: {
+        ...params,
+    },
+});
 // API endpoint for fetching events
 app.get('/api/events', async (req, res) => {
     try {
@@ -35,6 +41,8 @@ app.get('/api/events', async (req, res) => {
         
         res.json(response.data);
     } catch (error) {
+        console.error('Error fetching events:', error.response ? error.response.data : error.message);
+        res.status(500).send('Internal Server Error');
         console.error('Error fetching events:', error.message);
         res.status(500).send('Internal Server Error');
     }
@@ -73,8 +81,8 @@ app.post('/create-checkout-session', async (req, res) => {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `https://ticke-tree-backend.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: 'https://ticke-tree-backend.vercel.app/error',
+            success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: 'http://localhost:5173/error',
             allow_promotion_codes: true,
         });
 
