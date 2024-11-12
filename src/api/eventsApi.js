@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchEvents = async (params = {}) => {
   try {
-    const response = await axios.get("http://localhost:5001/api/events", {
+    const response = await axios.get("https://wad2-project-g5t7-2024-backend.vercel.app/api/events", {
       params: {
         ...params,
       },
