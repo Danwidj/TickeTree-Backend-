@@ -52,19 +52,14 @@
           </div>
         </div>
 
-        <div class="card-body d-flex row">
-          <!-- About Section -->
-          <div
-            class="about-section col-8 p-3"
-            :class="{ lighttext: isDarkMode }"
-          >
-            <h5>About:</h5>
-            <p>
-              {{
-                event?.description || "Detailed event description goes here."
-              }}
-            </p>
-          </div>
+      <div class="card-body d-flex row">
+        <!-- About Section -->
+        <div class="about-section col-8 p-3" :class="{ lighttext: isDarkMode }">
+          <h5>About:</h5>
+          <p>
+            {{ event?.description || "Detailed event description goes here." }}
+          </p>
+        </div>
 
           <!-- Price Section -->
           <div class="price-section col-4 text-center p-3">
@@ -298,7 +293,7 @@ function addToCart() {
 
 function openDirections(mode) {
   if (!event.value?.location?.point) return;
-
+  
   // Get destination coordinates
   const { lat, lng } = event.value.location.point;
 
@@ -422,28 +417,24 @@ function openDirections(mode) {
   color: #2c685e !important;
 }
 
-/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* High z-index to appear on top */
+  z-index: 1000;
 }
-/* Modal Content Styling */
+
 .modal-content {
-  background-color: white;
-  padding: 20px;
+  background-color: #fff;
+  padding: 25px;
   border-radius: 8px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  width: 50%;
-  max-width: 500px;
-  position: relative;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 /* Responsive Modal Width */
@@ -467,7 +458,7 @@ function openDirections(mode) {
 .modal-content .btn-close:hover {
   color: #333;
 }
-/* Modal Actions */
+
 .modal-actions button {
   margin-top: 10px;
 }
