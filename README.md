@@ -1,6 +1,6 @@
 # TickeTree
 
-View our deployed website using Vercel [here](https://wad2-project-g5t7-2024.vercel.app/)
+View our deployed website using Vercel [here](https://ticke-tree-frontend.vercel.app/)
 
 <div align="center">
   <a href="https://github.com/garrikyx/is216-TickeTree">
@@ -43,7 +43,7 @@ npm install -g npm
 
 
 ```sh
-git clone https://github.com/garrikyx/is216-TickeTree.git
+git clone https://github.com/Danwidj/TickeTree-frontend.git
 ```
 
 2. Create a .env file from the .env.example
