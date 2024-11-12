@@ -41,8 +41,8 @@ app.post('/create-checkout-session', async (req, res) => {
         quantity: quantity,
       }],
       mode: 'payment',
-      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: 'http://localhost:5173/error',
+      success_url: `ticke-tree-backend.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: 'ticke-tree-backend.vercel.app/error',
       customer: customer.id, // Use the created customer ID
       allow_promotion_codes: true,
     });
