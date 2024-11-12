@@ -84,7 +84,7 @@ app.post('/create-checkout-session', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
+ 
 app.get('/checkout-session', async (req, res) => {
     const { session_id } = req.query;
     try {
