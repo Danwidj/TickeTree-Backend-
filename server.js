@@ -14,13 +14,15 @@ const port = process.env.PORT || 5001;
 const stripe = stripePackage(process.env.STRIPE_SECRET_KEY);
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: 'https://ticke-tree-backend.vercel.app' })); // Allow only the frontend origin
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static(path.resolve('dist')));
-
 // API endpoint for fetching events
 app.get('/api/events', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://ticke-tree-backend.vercel.app'); // Allow only this origin
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE'); // Specify allowed methods
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow necessary headers
     try {
         const username = process.env.EVENTFINDA_USERNAME;
         const password = process.env.EVENTFINDA_PASSWORD;
