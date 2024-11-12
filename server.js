@@ -27,13 +27,13 @@ app.get('/api/events', async (req, res) => {
         const authHeader = 'Basic ' + Buffer.from(`${username}:${password}`).toString('base64');
 
         const queryParams = req.query;
-
+        
         const response = await axios.get('https://api.eventfinda.sg/v2/events.json', {
             headers: { Authorization: authHeader },
             params: { ...queryParams }
         });
-
         res.json(response.data);
+        console.log(response.data)
     } catch (error) {
         console.error('Error fetching events:', error.message);
         res.status(500).send('Internal Server Error');
