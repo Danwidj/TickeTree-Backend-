@@ -127,7 +127,7 @@ export default {
     localStorage.setItem('orderSummary', JSON.stringify(items));
 
     // Continue with checkout process
-    const response = await fetch('https://wad2-project-g5t7-2024-backend.vercel.app/create-checkout-session', {
+    const response = await fetch('https://ticke-tree-backend.vercel.app/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
